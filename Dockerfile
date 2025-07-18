@@ -1,22 +1,23 @@
 # Stage 1: Build Node.js app
 FROM node:22.17.0-alpine AS node-builder
-
 WORKDIR /app
 
 # Copy package files and install dependencies
 COPY package*.json ./
 RUN npm ci --only=production
 
-# Copy source code
+# Copy source code - INCLUDING ALL required directories
 COPY server.js ./
 COPY routes/ ./routes/
+COPY controller/ ./controller/
+COPY middleware/ ./middleware/
+COPY model/ ./model/
 COPY prisma/ ./prisma/
 
 # Create non-root user
 RUN addgroup -g 1001 -S nodejs && \
     adduser -S nodejs -u 1001
 RUN chown -R nodejs:nodejs /app
-USER nodejs
 
 # Stage 2: Create final image with Nginx and Node.js
 FROM nginx:alpine
