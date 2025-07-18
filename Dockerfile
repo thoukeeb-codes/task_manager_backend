@@ -11,7 +11,6 @@ COPY server.js ./
 COPY routes/ ./routes/
 COPY controller/ ./controller/
 COPY middleware/ ./middleware/
-COPY model/ ./model/
 COPY prisma/ ./prisma/
 
 # Create non-root user
